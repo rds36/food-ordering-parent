@@ -1,0 +1,113 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-dev
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: food-ordering-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    container_name: redis-dev
+    image: redis:7
+    ports: ["6379:6379"]
+
+  kafka:
+    image: apache/kafka-native
+    container_name: kafka-dev
+    ports:
+      - "9092:9092"
+    environment:
+      # Configure listeners for both docker and host communication
+      KAFKA_LISTENERS: CONTROLLER://localhost:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: HOST://localhost:9092,DOCKER://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,DOCKER:PLAINTEXT,HOST:PLAINTEXT
+
+      # Settings required for KRaft mode
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9091
+
+      # Listener to use for broker-to-broker communication
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
+
+      # Required for a single node cluster
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes: ["kafka-data:/apache/kafka"]
+
+  user:
+    build:
+      context: .
+      dockerfile: ./user-service/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/food-ordering-db
+      SPRING_DATASOURCE_USERNAME: user_service
+      SPRING_DATASOURCE_PASSWORD: password
+      REDIS_HOST: redis:6379
+      SERVER_PORT: 8081
+    depends_on: [postgres, redis]
+    ports: ["8081:8081"]
+
+  restaurant:
+    build:
+      context: .
+      dockerfile: ./restaurant-service/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/food-ordering-db
+      SPRING_DATASOURCE_USERNAME: restaurant_service
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SERVER_PORT: 8082
+    depends_on: [ postgres, redis ]
+    ports: [ "8082:8082" ]
+
+  order:
+    build:
+      context: .
+      dockerfile: ./order-service/Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/food-ordering-db
+      SPRING_DATASOURCE_USERNAME: order_service
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      # Kafka
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ORDER_EVENT_TOPIC: order.created
+      SPRING_JACKSON_SERIALIZATION_WRITE_DATES_AS_TIMESTAMPS: "false"
+      # Optional validasi ke Restaurant Service
+      ORDER_RESTAURANT_BASE_URL: http://restaurant:8082
+      SERVER_PORT: "8083"
+    depends_on: [ postgres, redis , kafka]
+    ports: [ "8083:8083" ]
+
+  notification:
+    build:
+      context: .
+      dockerfile: ./notification-service/Dockerfile
+    environment:
+      # Kafka
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ORDER_EVENT_TOPIC: order.created
+      SPRING_KAFKA_CONSUMER_GROUP_ID: notification-service
+      SPRING_JACKSON_SERIALIZATION_WRITE_DATES_AS_TIMESTAMPS: "false"
+      # Optional validasi ke Restaurant Service
+      ORDER_RESTAURANT_BASE_URL: http://restaurant:8082
+      SERVER_PORT: "8084"
+      NOTIFICATION_TOPIC: order.created
+    depends_on: [ postgres, redis , kafka]
+    ports: [ "8084:8084" ]
+
+volumes:
+  postgres_data:
+  kafka-data:

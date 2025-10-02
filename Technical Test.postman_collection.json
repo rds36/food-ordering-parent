@@ -1,0 +1,440 @@
+{
+	"info": {
+		"_postman_id": "b99666c0-44d7-4be4-bbe0-78b99cfd934f",
+		"name": "Technical Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45512004",
+		"_collection_link": "https://ranggadirga.postman.co/workspace/Rangga-Dirga's-Workspace~be67e12f-9caa-42ad-8e5d-9eef01ed00e5/collection/45512004-b99666c0-44d7-4be4-bbe0-78b99cfd934f?action=share&source=collection_link&creator=45512004"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ranggadirgas@gmail.com\",\n    \"password\": \"password\",\n    \"name\": \"Rangga Dirga\",\n    \"phone\": \"082112780146\",\n    \"address\": \"Jl. Al marjan No.40\",\n    \"role\": \"ADMIN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ranggadirgas@gmail.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getphone",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc1OTM4MjAzMiwiZXhwIjoxNzU5Mzg1NjMyfQ.Homiz7x_yt10T1KOYtC9qpMmZR0hXXSgurf-hNgQYLw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8081/api/user/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNzU5MzQ5ODEwLCJleHAiOjE3NTkzNTM0MTB9.RRYzrOfWqqKGWJfHFT2GAcQuWkyedpi8bZ7n5DGjvpk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:8081/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant Service",
+			"item": [
+				{
+					"name": "Restaurant",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc1OTQyMTYxOSwiZXhwIjoxNzU5NDI1MjE5fQ.eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc1OTQyMjA5MSwiZXhwIjoxNzU5NDI1NjkxfQ.iY-4wCqGjj4d7p-Qkd4KCK0r_yWcuX4g_JdNPl0abRQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Restoran Padang Panjang\",\n    \"city\": \"Jakarta\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/api/restaurant",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"api",
+										"restaurant"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Menu",
+					"item": [
+						{
+							"name": "Get",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNzU5Mzk1NTAzLCJleHAiOjE3NTkzOTkxMDN9.ClxqaaEuOAcUJ0dn-EzAbwHfouPlAyGUvKPA05F5pYY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:8082/api/menu/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"api",
+										"menu",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc1OTQyMjA5MSwiZXhwIjoxNzU5NDI1NjkxfQ.iY-4wCqGjj4d7p-Qkd4KCK0r_yWcuX4g_JdNPl0abRQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Nasi Kikil\",\n    \"price\": 20000,\n    \"isAvailable\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/api/menu/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"api",
+										"menu",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Availability",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNzU5Mzk1NTAzLCJleHAiOjE3NTkzOTkxMDN9.ClxqaaEuOAcUJ0dn-EzAbwHfouPlAyGUvKPA05F5pYY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"isAvailable\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/api/menu/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"api",
+										"menu",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIlVTRVIiXSwiaWF0IjoxNzU5Mzk1NTAzLCJleHAiOjE3NTkzOTkxMDN9.ClxqaaEuOAcUJ0dn-EzAbwHfouPlAyGUvKPA05F5pYY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8082/api/menu/2/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"api",
+										"menu",
+										"2",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order",
+					"item": [
+						{
+							"name": "Create Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc1OTQyMjA5MSwiZXhwIjoxNzU5NDI1NjkxfQ.iY-4wCqGjj4d7p-Qkd4KCK0r_yWcuX4g_JdNPl0abRQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"restaurantId\": 1,\n    \"items\": [\n        {\n            \"menuItemId\": 2,\n            \"qty\": 3,\n            \"price\": 1000\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/api/orders",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmb29kLW9yZGVyaW5nIiwic3ViIjoiMiIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTc1OTQwNDk2NywiZXhwIjoxNzU5NDA4NTY3fQ.E-rj7l9p8jTdc2Hoyjo5JHsgfGJ9J7ATcDIlr03slq4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8083/api/orders/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8083",
+									"path": [
+										"api",
+										"orders",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
